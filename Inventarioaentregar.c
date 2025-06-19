@@ -245,7 +245,7 @@ void guardarInventarioEnArchivo(Nodo* cabeza) {
     }
     Nodo* actual = cabeza;
     while (actual != NULL) {
-        fwrite(&(actual->producto), sizeof(Producto), 1, archivo);
+        fprintf(archivo,"Codigo: %d \nNombre: %s \nPrecio: %.2f \nStock: %d\n------------------------------------------------------------------\n", actual->producto.codigo, actual->producto.nombre, actual->producto.precio, actual->producto.stock);
         actual = actual->siguiente;
     }
     fclose(archivo);
