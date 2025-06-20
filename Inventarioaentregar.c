@@ -3,7 +3,7 @@
 #include <string.h>
 #define NOMBRE_MAX 50
 #define NOMBRE_ARCHIVO "inventarioproductos.dat"
-
+//Estructura Producto del inventario
 typedef struct {
     int codigo;
     char nombre[NOMBRE_MAX];
@@ -14,25 +14,26 @@ typedef struct Nodo {
     Producto producto;
     struct Nodo* siguiente;
 } Nodo;
-
+//Funciones de la interfaz
 void mostrarMenu();
 void procesarOpcion(Nodo** cabeza, int opcion);
-
+//Funciones del inventario
 void agregarProducto(Nodo** cabeza);
 int verificarCodigoExistente(Nodo* cabeza, int codigo);
 void eliminarProducto(Nodo** cabeza);
 void modificarProducto(Nodo* cabeza);
 void mostrarInventario(Nodo* cabeza);
-
+//Funciones para ordenar y buscar productos
 void buscarProductoPorCodigo(Nodo* cabeza);
 void buscarProductoPorNombre(Nodo* cabeza);
 void mostrarProductosOrdenadosPorPrecio(Nodo* cabeza);
-
+//Funciones para manipular archivos
 void guardarInventarioEnArchivo(Nodo* cabeza);
 void cargarInventarioDesdeArchivo(Nodo** cabeza);
-
+//Funciones auxiliares
 void liberarMemoria(Nodo** cabeza);
 
+//Funcion principal del programa
 int main() {
     Nodo* listaDeProductos = NULL;
     int opcion = 0;
@@ -45,17 +46,15 @@ int main() {
         {
             break;
         }
-        
-    /*Falta procesar opcion */
-        
+        procesarOpcion(&listaDeProductos, opcion);
+    
     } while (opcion != 0);
     printf("Programa guardado.\n");
     guardarInventarioEnArchivo(listaDeProductos);
     liberarMemoria(&listaDeProductos);
-    
     return 0;
 }
-
+//Implementacion de las funciones
 void mostrarMenu() {
     printf("\nINVENTARIO DE PRODUCTOS DE UN COMERCIO\n");
     printf("1. Agregar nuevo producto\n");
@@ -65,6 +64,31 @@ void mostrarMenu() {
     printf("5. Buscar producto por nombre\n");
     printf("6. Mostrar todos los productos (ordenados por precio)\n");
     printf("0. Guardar y Salir\n");
+}
+void procesarOpcion(Nodo** cabeza, int opcion) {
+    switch (opcion) {
+        case 1:
+            agregarProducto(cabeza);
+            break;
+        case 2:
+            modificarProducto(*cabeza);
+            break;
+        case 3:
+            eliminarProducto(cabeza);
+            break;
+        case 4:
+            buscarProductoPorCodigo(*cabeza);
+            break;
+        case 5:
+            buscarProductoPorNombre(*cabeza);
+            break;
+        case 6:
+            mostrarProductosOrdenadosPorPrecio(*cabeza);
+            break;
+        default:
+            printf("Opcion no valida. Intente de nuevo.\n");
+    }
+    
 }
 void agregarProducto(Nodo** cabeza) {
     int codigo;
